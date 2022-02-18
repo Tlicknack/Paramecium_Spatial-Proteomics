@@ -1,1 +1,33 @@
+A Spatial Proteome of Paramecium tetraurelia
+Timothy Licknack
 
+Introduction:
+There is no doubt that the expansion of the protein repetoirre in Eukaryotes has led to a massive expansion in cell biological complexity. 
+In no such organism is this more true than Paramecium tetraurelia, a membrane of the Paramecium aurelia spp. complex genetically resolved by Sonneborn (1975).
+P. tetraurelia is a Ciliated Protozoan with dimmensions of roughly ~120um x ~40um. 
+Like other Ciliates, it contains two types of nuclei: a somatic macronucleus (~15um in diameter) with ~800 copies of every chromosome,
+  and two germline micronuclei (~2um in diamter) which are transcriptionally silent except during sexual reproduction.
+Investigators into the molecular genetics of P. tetraurelia were intrigued to find multiple copy of typically single-copy genes in model Eukaryotes.
+Upon sequencing of its genome, nearly 40,000 protein-coding genes were identified from at least 3 whole-genome duplications (Aury et al. ; McGrath et al. ).
+The evolutionary fate of these duplicate genes have been discussed elsewhere (), 
+  but very little effort has been put towards understanding how the proteome responded to this massive increase in protein variants.
+While there has been gradual progress made in building a model of how this cell functions, the methods involved are typically low-throughput.
+To study protein prescence and localization, investigators typically resort to creating GFP-fusion proteins (Hauser et al. 2000).
+Some remarkable discoveries from these efforts have led to the identification of expanded protein families who WGD-paralogs-- called ohnologs from here out-- with wildly different localization patterns.
+For example, when Sehring et al. (2007) surveyed the localization patterns of a large family of actin paralogs and ohnologs, they found a plethora of cell structures with sometimes specific and sometimes broad labeling patterns.
+This and other observations have led to increasing speculation that every large gene family with divergent sequence patterns may be candidates for functionally diverging protein functions in the context of this large, complicated cell.
+One ill-addressed issue in Paramecium cell biology is the notoriously inconsistent use of GFP-fusion proteins. 
+A clear example of this are the ptSERCA1 and ptSERCA2 genes which dual-localizae to the alveolar sacs and ER only when GFP is inserted into a particular spot in the protein 
+   but are excluded from the ER when placed in another (Hauser et al. 2000)
+This is well-known in Saccharomyces cereviscae which has had virtually every ORF in its genome subject to GFP-fusion and microscopic assay (Huh et al. 2003).
+When comparing libraries of N and C-terminal GFP fusions, only 57% of clearly localized proteins were assigned to the same compartment (Weil et al. 2018).
+These discrepancies in well-known and emergent model systems nessesitate an independant method of globally assaying the organellar proteome.
+In the last few decades, a growing field of organellar proteomeics has led to rapid discovery of new resident proteins of nearly all cellular organelles ().
+
+
+
+Methods:
+
+Results:
+
+Discussion:
