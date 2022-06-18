@@ -5,7 +5,7 @@ library(pRoloc)
 
 setwd("/ptetPCP/")
 
-ptetPCP = read.csv(file = "ptetPCP_csv/ptetLOPITv3.csv", header=T) 
+ptetPCP = read.csv(file = "ptetPCP_csv/ptetPCP.csv", header=T) 
 dim(ptetPCP)  # 12579 proteins X 248 columns
 
 ### Remove cRaP Proteins
@@ -13,7 +13,7 @@ ptetPCP = rbind(ptetPCP[grep(pattern = "PTET*", x = ptetPCP$Accession),],
                 ptetPCP[grep(pattern = "YP_00*", x = ptetPCP$Accession),],  
                 ptetPCP[grep(pattern = "*lcl", x = ptetPCP$Accession),])   
 dim(ptetPCP)  # 12545 proteins X 248 columns (34 proteins removed)
-                # 11564 ptet proteins, 617 Kleb proteins, 31 mito ORFs
+# 11564 ptet proteins, 617 Kleb proteins, 31 mito ORFs
 
 ### Change Mitochondrial ORF names
 ptetPCP[grep(pattern = "*lcl", x = ptetPCP$Accession),'Accession'] = ptetPCP[grep(pattern = "*lcl", x = ptetPCP$Accession),'Description']
@@ -31,10 +31,10 @@ dim(ptetPCP)  # 11437 proteins X 248 columns (775 proteins removed)
 ### Remove Proteins without Unique Peptides
 ptetPCP = ptetPCP[-which(ptetPCP$X..Unique.Peptides == 0),]
 dim(ptetPCP)  # 11436 proteins X 248 columns (1 protein removed)
-  # 10887 ptet proteins, 518 Kleb proteins, 31 mito ORFs
+# 10887 ptet proteins, 518 Kleb proteins, 31 mito ORFs
 
 ### Raw abundance file
-  # Notes: 1 5K is missing (corrupt), 1 12K was rerun due to machine error (F146 --> F148)
+# Notes: 1 5K is missing (corrupt), 1 12K was rerun due to machine error (F146 --> F148)
 ptetPCP_raw = ptetPCP %>% dplyr::select(colnames(ptetPCP)[c(2,1,4:9)], colnames(ptetPCP)[34:140])
 dim(ptetPCP_raw)  # 11436 proteins by 115 columns
 write.csv(ptetPCP_raw, "./ptetPCP_csv/ptetPCP_raw.csv", row.names = F, quote = F)
@@ -116,7 +116,7 @@ ptetPCP_raw_rep1_SUPonly = NAprocessPCP_SUP(ptetPCP_raw_rep1)  # 333 proteins
 ptetPCP_raw_rep2_SUPonly = NAprocessPCP_SUP(ptetPCP_raw_rep2)  # 235 proteins
 ptetPCP_raw_rep3_SUPonly = NAprocessPCP_SUP(ptetPCP_raw_rep3)  # 277 proteins
 ptetPCP_raw_SUPonly = intersect(intersect(ptetPCP_raw_rep1_SUPonly$Accession, ptetPCP_raw_rep2_SUPonly$Accession), ptetPCP_raw_rep3_SUPonly$Accession)
-  # 107 proteins shared
+# 107 proteins shared
 write.csv(ptetPCP_raw_SUPonly, file = "/ptetPCP/ptetPCP_csv/ptetPCP_SupernatantONLY.csv", quote = F, row.names = F)
 
 ptetPCP_raw_rep1 = ptetPCP_raw_rep1[-which(ptetPCP_raw_rep1$Accession %in% ptetPCP_raw_rep1_SUPonly$Accession),]
@@ -141,17 +141,17 @@ write.csv(ptetPCP_raw_rep3, file = "/ptetPCP/ptetPCP_csv/ptetPCP_raw_rep3.csv", 
 
 ### Convert to MSN + Remove Unimportant R Objects
 ptetPCP_raw_rep1_msn = readMSnSet2(file = "./ptetPCP_CSV/ptetPCP_raw_rep1.csv",
-                                          ecol = c("MAC.1", "X300g.1", "X1K.1", "X3K.1", "X5K.1", "X9K.1", 
-                                                   "X12K.1", "X15K.1", "X30K.1", "X79K.1", "X120K.1", "SUP.1"), 
-                                          fnames = "Accession")
+                                   ecol = c("MAC.1", "X300g.1", "X1K.1", "X3K.1", "X5K.1", "X9K.1", 
+                                            "X12K.1", "X15K.1", "X30K.1", "X79K.1", "X120K.1", "SUP.1"), 
+                                   fnames = "Accession")
 ptetPCP_raw_rep2_msn = readMSnSet2(file = "./ptetPCP_CSV/ptetPCP_raw_rep2.csv",
-                                          ecol = c("MAC.2", "X300g.2", "X1K.2", "X3K.2", "X5K.2", "X9K.2", 
-                                                   "X12K.2", "X15K.2", "X30K.2", "X79K.2", "X120K.2", "SUP.2"), 
-                                          fnames = "Accession")
+                                   ecol = c("MAC.2", "X300g.2", "X1K.2", "X3K.2", "X5K.2", "X9K.2", 
+                                            "X12K.2", "X15K.2", "X30K.2", "X79K.2", "X120K.2", "SUP.2"), 
+                                   fnames = "Accession")
 ptetPCP_raw_rep3_msn = readMSnSet2(file = "./ptetPCP_CSV/ptetPCP_raw_rep3.csv",
-                                          ecol = c("MAC.3", "X300g.3", "X1K.3", "X3K.3", "X5K.3", "X9K.3", 
-                                                   "X12K.3", "X15K.3", "X30K.3", "X79K.3", "X120K.3", "SUP.3"), 
-                                          fnames = "Accession")
+                                   ecol = c("MAC.3", "X300g.3", "X1K.3", "X3K.3", "X5K.3", "X9K.3", 
+                                            "X12K.3", "X15K.3", "X30K.3", "X79K.3", "X120K.3", "SUP.3"), 
+                                   fnames = "Accession")
 rm(list=setdiff(ls(), c("ptetPCP_raw_rep1_msn", "ptetPCP_raw_rep2_msn", "ptetPCP_raw_rep3_msn")))
 
 
@@ -173,7 +173,7 @@ ptetPCP_raw_rep2_nbavg_norm_zero = impute(ptetPCP_raw_rep2_nbavg_norm, method = 
 ptetPCP_raw_rep3_bavg_norm_zero = impute(ptetPCP_raw_rep3_nbavg_norm, method = "zero")
 
 ### Concatenate above datasets
-  # Remove NAs and Normalize
+# Remove NAs and Normalize
 tmp1a =  merge(exprs(ptetPCP_raw_rep1_norm), exprs(ptetPCP_raw_rep2_norm), by=0)
 rownames(tmp1a) = tmp1a$Row.names
 tmp1a$Row.names = NULL 
@@ -186,7 +186,7 @@ tmp1f = intersect(intersect(tmp1c, tmp1d), tmp1e)
 ptetPCP_raw_all_norm = merge(tmp1f, tmp1b, by=0)
 ptetPCP_raw_all_norm$Row.names = NULL
 
-  # Impute NBAVG and Normalize
+# Impute NBAVG and Normalize
 tmp2a =  merge(exprs(ptetPCP_raw_rep1_nbavg_norm), exprs(ptetPCP_raw_rep2_nbavg_norm), by=0)
 rownames(tmp2a) = tmp2a$Row.names
 tmp2a$Row.names = NULL 
@@ -199,7 +199,7 @@ tmp2f = intersect(intersect(tmp2c, tmp2d), tmp2e)
 ptetPCP_raw_all_nbavg_norm = merge(tmp2f, tmp2b, by=0)
 ptetPCP_raw_all_nbavg_norm$Row.names = NULL
 
-  # Impute Zeros
+# Impute Zeros
 tmp3a =  merge(exprs(ptetPCP_raw_rep1_nbavg_norm_zero), exprs(ptetPCP_raw_rep2_nbavg_norm_zero), by=0)
 rownames(tmp3a) = tmp3a$Row.names
 tmp3a$Row.names = NULL 
@@ -225,7 +225,7 @@ ptetPCP_raw_all_nbavg_norm = ptetPCP_raw_all_nbavg_norm %>% filter(round(MAC.1, 
   filter(round(SUP.2, 4) != round(0.0833, 4)) %>% filter(round(MAC.3, 4) != round(0.0833, 4)) %>%
   filter(round(X15K.3, 4) != round(0.0833, 4)) %>% filter(round(SUP.3, 4) != round(0.0833, 4))
 
-  
+
 ###### Data Sets:
 # Organellar Classification:    ptetPCP_raw_all_bavg_norm_zero, ptetPCP_raw_rep1_nbavg_norm_zero, ptetPCP_raw_rep2_nbavg_norm_zero, ptetPCP_raw_rep3_nbavg_norm_zero
 # Nearest Neighbors:            ptetPCP_raw_all_norm, ptetPCP_raw_rep1_msn, ptetPCP_raw_rep2_msn, ptetPCP_raw_rep3_msn
@@ -237,14 +237,6 @@ write.csv(ptetPCP_raw_all_norm, file = "./ptetPCP_csv/ptetPCP_norm.csv", quote =
 
 ### Read in new MSNs
 ptetPCP_raw_all_nbavg_norm_zero_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_nbavg_norm_zero.csv",
-                                             ecol = c("MAC.1", "X300g.1", "X1K.1", "X3K.1", "X5K.1", "X9K.1", 
-                                                      "X12K.1", "X15K.1", "X30K.1", "X79K.1", "X120K.1", "SUP.1", 
-                                                      "MAC.2", "X300g.2", "X1K.2", "X3K.2", "X5K.2", "X9K.2", 
-                                                      "X12K.2", "X15K.2", "X30K.2", "X79K.2", "X120K.2", "SUP.2",
-                                                      "MAC.3", "X300g.3", "X1K.3", "X3K.3", "X5K.3", "X9K.3", 
-                                                      "X12K.3", "X15K.3", "X30K.3", "X79K.3", "X120K.3", "SUP.3"),                                           
-                                             fnames = "Accession"))
-ptetPCP_raw_all_norm_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_norm.csv",
                                                           ecol = c("MAC.1", "X300g.1", "X1K.1", "X3K.1", "X5K.1", "X9K.1", 
                                                                    "X12K.1", "X15K.1", "X30K.1", "X79K.1", "X120K.1", "SUP.1", 
                                                                    "MAC.2", "X300g.2", "X1K.2", "X3K.2", "X5K.2", "X9K.2", 
@@ -252,7 +244,7 @@ ptetPCP_raw_all_norm_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_norm.csv",
                                                                    "MAC.3", "X300g.3", "X1K.3", "X3K.3", "X5K.3", "X9K.3", 
                                                                    "X12K.3", "X15K.3", "X30K.3", "X79K.3", "X120K.3", "SUP.3"),                                           
                                                           fnames = "Accession"))
-ptetPCP_raw_all_nbavg_norm_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_nbavg_norm.csv",
+ptetPCP_raw_all_norm_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_norm.csv",
                                                ecol = c("MAC.1", "X300g.1", "X1K.1", "X3K.1", "X5K.1", "X9K.1", 
                                                         "X12K.1", "X15K.1", "X30K.1", "X79K.1", "X120K.1", "SUP.1", 
                                                         "MAC.2", "X300g.2", "X1K.2", "X3K.2", "X5K.2", "X9K.2", 
@@ -260,6 +252,14 @@ ptetPCP_raw_all_nbavg_norm_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_nbav
                                                         "MAC.3", "X300g.3", "X1K.3", "X3K.3", "X5K.3", "X9K.3", 
                                                         "X12K.3", "X15K.3", "X30K.3", "X79K.3", "X120K.3", "SUP.3"),                                           
                                                fnames = "Accession"))
+ptetPCP_raw_all_nbavg_norm_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_nbavg_norm.csv",
+                                                     ecol = c("MAC.1", "X300g.1", "X1K.1", "X3K.1", "X5K.1", "X9K.1", 
+                                                              "X12K.1", "X15K.1", "X30K.1", "X79K.1", "X120K.1", "SUP.1", 
+                                                              "MAC.2", "X300g.2", "X1K.2", "X3K.2", "X5K.2", "X9K.2", 
+                                                              "X12K.2", "X15K.2", "X30K.2", "X79K.2", "X120K.2", "SUP.2",
+                                                              "MAC.3", "X300g.3", "X1K.3", "X3K.3", "X5K.3", "X9K.3", 
+                                                              "X12K.3", "X15K.3", "X30K.3", "X79K.3", "X120K.3", "SUP.3"),                                           
+                                                     fnames = "Accession"))
 
 ### Summary
 plot2D(ptetPCP_raw_all_nbavg_norm_zero_NA, fcol = NULL)  # 10349 proteins
@@ -276,7 +276,7 @@ rm(list=setdiff(ls(),
                   "ptetPCP_raw_all_nbavg_norm_NA")))
 
 #save.image("./ptetPCP_rdata/ptetPCP_rawMSN.RData")
-#load("./ptetPCP_rdata/ptetPCP_rawMSN.RData")
+load("./ptetPCP_rdata/ptetPCP_rawMSN.RData")
 
 
 # tSNE
