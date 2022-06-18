@@ -12,7 +12,8 @@ filterNA(ptetPCP_raw_all_nbavg_norm_zero_NA)
 marked = addMarkers(ptetPCP_raw_all_nbavg_norm_zero_NA, markers = "./ptetPCP_csv/markersFinal.csv", 
                     mcol = "markers", fcol = "Accession", verbose = T)
 
-save.image("./ptetPCP_rdata/ptetPCP_marked.RData")
+#save.image("./ptetPCP_rdata/ptetPCP_marked.RData")
+load("./ptetPCP_rdata/ptetPCP_marked.RData")
 
 # tSNE with Markers
 set.seed(42)
@@ -21,8 +22,9 @@ addLegend(marked, fcol = "markers", where = "topright", bty = "n", cex = .6)
 
 # Marker Protein Resolution
 mrkHClust(marked, fcol = "markers")
-plot(QSep(marked))
-levelPlot(QSep(marked))
+qs = QSep(marked)
+plot(qs)
+levelPlot(qs)
 
 # Distributions
   # Nuclei
