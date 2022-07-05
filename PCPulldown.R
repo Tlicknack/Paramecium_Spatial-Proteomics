@@ -1,13 +1,12 @@
-  # PCPulldown.R
-
-PCPulldown <- function(msn, protein, lDist, n_top_hits, svmProps, desination_dir){
+PCPulldown <- function(msn, protein, lDist, n_top_hits, svmProps, destination_dir){
   # Condition 1
-  if(dir.exists(desination_dir) == F){
+  if(dir.exists(destination_dir) == F){
     stop(print("The directory isn't writeable (doesn't exist)"))
   }
   
-  setwd(desination_dir)
+  setwd(destination_dir)
   n_names = c(protein, names(sort(lDist[[protein]], decreasing = T)[1:n_top_hits]))
+  n_names = n_names[which(n_names %in% rownames(exprs(msn)))]   # Check
   table(factor(n_names, levels=unique(n_names)))
   
   # Condition 2
