@@ -22,6 +22,8 @@ write.csv(merge(merge(data.frame(svmProps[grep(pattern = "PTET*", x = svmProps$A
 ggplot(svmProps) + geom_count(aes(x=svm.pred, y=Chromosome))
 sort(table(svmProps$Chromosome), decreasing = T)
   # Uninteresting
+    # Other than chr 4
+length(which(svmProps$Chromosome == 4))  #11th most proteins
 
 ggplot(svmProps) + geom_violin(aes(x=svm.pred, y=mRNA_VEG)) +   scale_y_continuous(trans = "log10") + 
   xlab("Predicted Compartment") + ylab("Log mRNA Expression (VEG Growth)")
@@ -86,16 +88,16 @@ TukeyHSD(aov(mRNA_VEG ~ svm.pred, svmProps))
 write.csv(data.frame(TukeyHSD(aov(mRNA_VEG ~ svm.pred, svmProps))$'svm.pred'), 
           file = "/ptetPCP/ptetPCP_csv/ptetPCP_mRNAveg_Tukey.csv", quote = F, row.names = T)
 
-ggplot(svmProps) + geom_count(aes(x=svm.pred, y=TransmembraneHelix, color = ..n..)) + scale_size(range=c(0,20)) + 
+ggplot(svmProps[which(!is.na(svmProps$TransmembraneHelix)),]) + geom_count(aes(x=svm.pred, y=TransmembraneHelix, color = ..n..)) + scale_size(range=c(0,10)) + 
   xlab("Predicted Compartment") + ylab("Predicted Transmembrane Domain")
 table(svmProps$TransmembraneHelix)
 
-ggplot(svmProps) + geom_count(aes(x=svm.pred, y=SignalPeptide, color = ..n..)) + scale_size(range=c(0,10)) + 
+ggplot(svmProps[which(!is.na(svmProps$TransmembraneHelix)),]) + geom_count(aes(x=svm.pred, y=SignalPeptide, color = ..n..)) + scale_size(range=c(0,10)) + 
   xlab("Predicted Compartment") + ylab("Predicted Signal Peptide")
 table(svmProps$TransmembraneHelix)[1] / (table(svmProps$TransmembraneHelix)[1] + table(svmProps$TransmembraneHelix)[2])
 
 ggplot(svmProps[grep("PTET*", svmProps$Accession),]) + geom_count(aes(x=svm.pred, y=TargetP, color = ..n..)) + 
-  scale_size(range=c(0,20)) + 
+  scale_size(range=c(0,10)) + 
   xlab("Predicted Compartment") + ylab("Signal Peptide, Mitochondrial Targetting Sequence, Other")
 
 
@@ -104,7 +106,7 @@ svmProps$mRNA_VEG_log = log(svmProps$mRNA_VEG)
 svmProps$nPSM_log = log(svmProps$nPSM)
 ggplot(svmProps, aes(x=mRNA_VEG, y=nPSM)) + geom_point() + geom_smooth(method = "lm")
 ggplot(svmProps, aes(x=mRNA_VEG_log, nPSM_log)) + geom_point() + geom_smooth(method = "lm") + 
-  xlab("Log mRNA Expression (VEG Growth") + ylab("Log PSMs/protein")
+  xlab("Log mRNA Expression (VEG Growth)") + ylab("Log PSMs/protein")
 
 
 
@@ -113,7 +115,7 @@ tmps = svmProps[grep(pattern = "*TMP*", x = svmProps$Synonyms),]
 table(tmps$svm)
 table(tmps$svm.pred)
 length(which(tmps$DE_TrichocystDischarge == T)) / (length(which(tmps$DE_TrichocystDischarge == T)) + length(which(tmps$DE_TrichocystDischarge == F)))
-  # 4.6%
+  # 4.6% of TMPs themselves are DE... our 6% is actually better!
 
 #####
 ##### Word Clouds
@@ -127,11 +129,16 @@ commonWords = c("coil", " coil", "coil ",
                 "  coiled  ", "  coiled  ", "Coiled", "Coiled ", " Coiled",
                 "fold", "subunit", "protein", "domain", "family", "function", "containing", "profile", "factor", 
                 " protein", "protein ", "protein  ", "  protein", "Protein")
-# makeWordCloud() make word cloud given dataframe and vector of common words
+  # makeWordCloud() make word cloud given dataframe and vector of common words
 for(orgs in unique(svmProps$svm.pred)){
   png(file=paste("/ptetPCP/ptetPCP_plots/wordcloud/", orgs, ".png", sep=""))
   makeWordCloud(svmProps[which(svmProps$svm.pred == orgs),], commonWords)
   graphics.off()
+}
+
+#setwd("/ptetPCP/ptetPCP_plots/PDFs/")
+for(orgs in unique(svmProps$svm.pred)){
+  makeWordCloud(svmProps[which(svmProps$svm.pred == orgs),], commonWords)
 }
 
 
