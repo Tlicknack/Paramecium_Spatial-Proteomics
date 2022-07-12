@@ -252,6 +252,7 @@ ptetPCP_raw_all_norm_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_norm.csv",
                                                         "MAC.3", "X300g.3", "X1K.3", "X3K.3", "X5K.3", "X9K.3", 
                                                         "X12K.3", "X15K.3", "X30K.3", "X79K.3", "X120K.3", "SUP.3"),                                           
                                                fnames = "Accession"))
+plotNA(ptetPCP_raw_all_norm_NA)  # read in without filterNA for this. save
 ptetPCP_raw_all_nbavg_norm_NA = filterNA(readMSnSet2("./ptetPCP_csv/ptetPCP_nbavg_norm.csv",
                                                      ecol = c("MAC.1", "X300g.1", "X1K.1", "X3K.1", "X5K.1", "X9K.1", 
                                                               "X12K.1", "X15K.1", "X30K.1", "X79K.1", "X120K.1", "SUP.1", 
@@ -326,3 +327,11 @@ venn.diagram(
   filename = './ptetPCP_plots/vennDiagram_nbavg.png',
   output=TRUE, main = "Proteins Identfied in Each Experiment (ZERO Imputation)"
 )
+
+# Feature Comparison: Different imputation
+psmSummary = cbind(as.data.frame(unclass(summary(fData(ptetPCP_raw_all_nbavg_norm_zero_NA)$'nPSM'))),
+as.data.frame(unclass(summary(fData(ptetPCP_raw_all_nbavg_norm_NA)$'nPSM'))),
+as.data.frame(unclass(summary(fData(ptetPCP_raw_all_norm_NA)$'nPSM'))))
+colnames(psmSummary) = c("Hybrid Imputation", "NBAVG Imputation", "No Imputation")
+write.csv(psmSummary, file = "/ptetPCP/ptetPCP_csv/psmSummary.csv", quote = F)
+
