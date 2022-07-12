@@ -14,7 +14,7 @@ preds1 = getPredictions(svmresMarked, fcol = "svm", mcol = "markers")
 medSVM = median(fData(svmresMarked)$svm.scores)  #median svm score: .53
 preds2 = getPredictions(svmresMarked, fcol = "svm", t = medSVM, mcol = "markers") 
 ts1 = tapply(fData(preds1)$'svm.scores', fData(preds1)$'svm', median)
-preds3 = getPredictions(svmresMarked, fcol = "svm", t = ts1, mcol = "markers") 
+#preds3 = getPredictions(svmresMarked, fcol = "svm", t = ts1, mcol = "markers") 
   
 #save.image("./ptetPCP_rdata/ptetPCP_SVM.Rdata")
 load("./ptetPCP_rdata/ptetPCP_SVM.Rdata")
@@ -30,9 +30,9 @@ addLegend(preds2, fcol = "svm", where = "topright", bty = "n", cex = .6)
 set.seed(42)
 plot2D(preds2, fcol = "svm.pred", method = "t-SNE")
 addLegend(preds2, fcol = "svm.pred", where = "topright", bty = "n", cex = .6)
-set.seed(42)
-plot2D(preds3, fcol = "svm.pred", method = "t-SNE")
-addLegend(preds3, fcol = "svm.pred", where = "topright", bty = "n", cex = .6)
+#set.seed(42)
+#plot2D(preds3, fcol = "svm.pred", method = "t-SNE")
+#addLegend(preds3, fcol = "svm.pred", where = "topright", bty = "n", cex = .6)
 
 # Summary Table
 library(gt)
@@ -49,7 +49,7 @@ preds2_compare$Description = c("Core Basal Body", "Ciliary- Basal Body", "Cytoso
 preds2_compare = preds2_compare %>% 
   bind_rows(summarise_all(., ~if(is.numeric(.)) sum(.) else "Total"))
 preds2_compare$Description[18] = "."
-preds2_compare$SVMmed = as.numeric(ts1)
+preds2_compare$SVMmed = c(as.numeric(ts1), 0)
 write.csv(preds2_compare, "./ptetPCP_csv/SVMpredictions_Summary.csv", row.names = F, quote = F)
 
 preds2_compare %>% gt() %>% cols_align(align = "center") 
