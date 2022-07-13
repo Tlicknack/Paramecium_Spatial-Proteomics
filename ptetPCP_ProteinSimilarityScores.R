@@ -21,7 +21,6 @@ for(q in 1:length(lDist_NA)){
 }
 range(unlist(lDist_NA))
 
-
 # Make Plots
 setwd("/ptetPCP/ptetPCP_eucDist/NA-norm//")
 for(compartment in unique(preds2_fd$svm.pred)){
@@ -94,9 +93,6 @@ for(compartment in unique(preds2_fd$svm.pred)){
   dev.off()  # shut off plot saving
 }
 
-
-
-
 # measure non-parametric skewness
 npSkew = function(x) { return ((mean(x)-median(x))/sd(x))}
 
@@ -122,7 +118,9 @@ ggplot(npSkew_NA) + geom_histogram(aes(x=NPSKEW, fill=svm.pred), bins=50) +
 load("/ptetPCP/ptetPCP_rdata/ptetPCP_PSS.RData")
 
 #####
-###### NBAVG Data
+#####
+#####
+##### NBAVG Data
 range(unlist(lDist_NBAVG))
 
 minEuc_nb = range(unlist(lDist_NBAVG))[1]
@@ -160,7 +158,9 @@ ggplot(npSkew_NBAVG) + geom_histogram(aes(x=NPSKEW, fill=svm.pred), bins=50) +
 save.image("./ptetPCP_rdata/ptetPCP_PSS.RData")
 
 #####
-###### Yeast Data
+#####
+#####
+##### Yeast Data
 load("/ptetPCP/ptetPCP_rdata/yeast2018_eucDist.RData")
   # Range of Euclidean Distances
 range(unlist(lDist_yeast))
@@ -231,8 +231,10 @@ rm(list=setdiff(ls(), c("lDist_NA", "lDist_NBAVG", "lDist_yeast", "npSkew_NA", "
 #save.image("./ptetPCP_rdata/ProteinSimilarityScores.RData")
 load("./ptetPCP_rdata/ProteinSimilarityScores.RData")
 
-####
-#### Toxo
+#####
+#####
+#####
+##### Toxo
 load("./ptetPCP_rdata/toxo2020_eucDist.RData")
 
 range(unlist(lDist_toxo))
