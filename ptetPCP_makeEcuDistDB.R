@@ -43,6 +43,8 @@ for(i in 1:nrow(nbavgImpute)){
 }
 
 
+# Other Species:
+#
 # Yeast
 library(pRolocdata)
 data("yeast2018")
@@ -63,4 +65,28 @@ for(i in 1:nrow(yeast_exprs)){   # make DF
     }
   }
   save.image("./yeast2018_eucDist.RData")
+}
+
+# Toxoplasma gondii
+library(pRolocdata)
+data("Barylyuk2020ToxoLopit")
+toxo_exprs = 2^(exprs(Barylyuk2020ToxoLopit))
+write.table(rownames(fData(Barylyuk2020ToxoLopit)), file = "/ptetPCP/ptetPCP_csv/toxo2020_genes.tab", 
+            sep = ";", row.names = F, quote = F, col.names = F)
+# uploaded this to toxoMine to get Descriptions. wrote that result to toxo2020_properties.csv
+toxoProps = read.csv("/ptetPCP/ptetPCP_csv/toxo2018_properties.csv", header=T)
+write.csv(merge(toxoProps, fData(Barylyuk2020ToxoLopit), by.x="Accession", by.y=0), 
+          file = "/ptetPCP/ptetPCP_csv/toxo2020_properties.csv", quote = F, row.names = F)
+
+for(i in 1:nrow(toxo_exprs)){   # make DF
+  for(j in 1:nrow(toxo_exprs)){
+    chi_ij = euclidean(toxo_exprs[i,1:ncol(toxo_exprs)], toxo_exprs[j,1:ncol(toxo_exprs)])
+    
+    if(chi_ij > 0){
+      lDist_toxo[[rownames(toxo_exprs)[i]]] [rownames(toxo_exprs)[j]] = chi_ij
+    }
+  }
+  if(i%%50 == 0){
+    save.image("./toxo2020_eucDist.RData")
+  }
 }
